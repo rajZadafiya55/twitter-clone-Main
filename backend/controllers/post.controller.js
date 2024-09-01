@@ -6,9 +6,16 @@ import User from "../models/user.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
+const __dirname = path.resolve();
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../public"); // Directory where files will be stored
+    const uploadDir = path.join(__dirname, "public");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir); // Use the absolute path
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // Unique file name

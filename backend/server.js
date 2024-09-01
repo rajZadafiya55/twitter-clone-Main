@@ -3,13 +3,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
-
+import fs from "fs";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import notificationRoutes from "./routes/notification.route.js";
 import cors from "cors";
-
 import connectMongoDB from "./db/connectMongoDB.js";
 
 dotenv.config();
@@ -34,9 +33,12 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.static(path.join(__dirname, "public")));
+const publicPath = path.join(__dirname, "public");
+if (!fs.existsSync(publicPath)) {
+  fs.mkdirSync(publicPath, { recursive: true });
+}
+app.use(express.static(publicPath));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
