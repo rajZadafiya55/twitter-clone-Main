@@ -8,7 +8,6 @@ import fs from "fs";
 
 const __dirname = path.resolve();
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDir = path.join(__dirname, "public");

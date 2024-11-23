@@ -35,6 +35,7 @@ app.use(
 );
 
 const publicPath = path.join(__dirname, "public");
+
 if (!fs.existsSync(publicPath)) {
   fs.mkdirSync(publicPath, { recursive: true });
 }
